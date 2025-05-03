@@ -1,16 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 const TrendingSection = ({trendingArticles}) => {
  
 
   return (
-    <section id="trend" className="pt-10 pb-10 bg-gray-100 ">
-      <div className="container mx-auto px-4">
+    <section id="trend" className="bg-gray-100 ">
+      <div className="container mx-auto p-5">
         <div className="mb-6">
-          <span className="inline-block p-2 px-4 uppercase text-sm text-white bg-black font-bold">
-            Trending
+          <span className="inline-block p-2 uppercase text-sm text-white bg-orange-500 font-bold">
+            Trending News
           </span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">

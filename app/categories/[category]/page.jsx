@@ -1,22 +1,41 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import TopHeader from "@/components/TopHeader";
 import Header from "@/components/Header";
+import useStore from "@/store/store"; 
 import axios from "axios";
 
-const Page = async ({ params }) => {
-  const category = params.category || "top";
-  const apiKey = process.env.NEWS_API_KEY;
-  const country = "in";
-  const language = "hi";
+const Page = ({ params }) => {
+  const { language, country } = useStore();
+  const [results, setResults] = useState([]);
+  const [category, setCategory] = useState("top");
 
-  let results = [];
+  useEffect(() => {
+    const resolveParams = async () => {
+      const resolvedParams = await params;
+      setCategory(resolvedParams.category || "top");
+    };
 
-  try {
-    const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&country=${country}&language=${language}&category=${category}`;
-    const response = await axios.get(url);
-    results = response.data.results || [];
-  } catch (error) {
-    console.error("API fetch error:", error);
-  }
+    resolveParams();
+  }, [params]);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await axios.get(
+          `/api/get-news?category=${category}&country=${country}&language=${language}`
+        );
+        setResults(res.data.data || []);
+      } catch (err) {
+        console.error("Error fetching news:", err);
+      }
+    };
+
+    if (category) {
+      fetchNews();
+    }
+  }, [category, country, language]);
 
   return (
     <div>
@@ -24,13 +43,12 @@ const Page = async ({ params }) => {
       <Header />
       <section id="center" className="pt-5 pb-5 bg-white text-black">
         <div className="container mx-auto px-4">
-          {/* Main Feature Row (First news item) */}
           {results[0] && (
             <div className="grid md:grid-cols-2 gap-6 mb-12">
               <div className="relative">
                 <a href={results[0].link}>
                   <img
-                    src={results[0].image_url }
+                    src={results[0].image_url}
                     className="w-full h-64 object-cover"
                     alt="Main news"
                   />
@@ -43,24 +61,21 @@ const Page = async ({ params }) => {
                     {category}
                   </span>
                 </div>
-                <div className="absolute bottom-0 p-3 bg-opacity-50 text-black">
+                <div className="absolute bottom-0 p-3 bg-opacity-50 text-black bg-gray-100">
                   <b className="text-2xl block">
-                    <a href={results[0].link || "#"}>
-                      {results[0].title}
-                    </a>
+                    <a href={results[0].link || "#"}>{results[0].title}</a>
                   </b>
                 </div>
               </div>
-
               <div>
                 <span className="text-sm text-orange-500">
                   {results[0].creator?.[0] || "Unknown"} —{" "}
                   {new Date(results[0].pubDate).toLocaleString()}
                 </span>
-                <b className="text-3xl block mt-3">
-                  {results[0].title}
-                </b>
-                <p className="mt-3 text-gray-700 line-clamp-6">{results[0].description}</p>
+                <b className="text-3xl block mt-3">{results[0].title}</b>
+                <p className="mt-3 text-gray-700 line-clamp-6">
+                  {results[0].description}
+                </p>
                 <span className="text-sm">
                   <a className="text-orange-500" href={results[0].link}>
                     Read More
@@ -70,7 +85,6 @@ const Page = async ({ params }) => {
             </div>
           )}
 
-          {/* Latest News Header */}
           <div className="mt-12">
             <b className="inline-block px-3 py-1 text-white text-sm uppercase bg-orange-500">
               Latest News in {category}
@@ -78,7 +92,6 @@ const Page = async ({ params }) => {
             <hr className="border-orange-500 mt-2 mb-4" />
           </div>
 
-          {/* Latest News Grid */}
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
             {results.slice(1, 9).map((item, idx) => (
               <div key={idx}>

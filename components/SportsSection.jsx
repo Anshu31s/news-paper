@@ -36,7 +36,7 @@ const SportsSection = ({sportsArticles}) => {
                     {sportsArticles[0].title}
                   </a>
                 </h3>
-                <p className="mt-2 text-gray-700">{sportsArticles[0].description}</p>
+                <p className="mt-2 text-gray-700 line-clamp-4">{sportsArticles[0].description}</p>
               </div>
             )}
 

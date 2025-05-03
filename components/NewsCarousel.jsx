@@ -44,14 +44,14 @@ const NewsSection = ({trendingNews}) => {
                         }}
                       />
                     </a>
-                    <div className="absolute bottom-0 bg-black bg-opacity-60 w-full p-4">
-                      <span className="bg-orange-500 text-white px-2 py-1 text-xs uppercase rounded">
+                    <div className="absolute bottom-0 bg-gray-100 bg-opacity-60 w-full p-4">
+                      <span className="bg-orange-500 px-2 py-1 text-xs uppercase rounded">
                         {news.category}
                       </span>
-                      <h2 className="text-white text-lg font-bold mt-2">
+                      <h2 className=" text-lg font-bold mt-2">
                         <a
                           href={news.link}
-                          className="text-white hover:underline"
+                          className=" hover:underline"
                         >
                           {news.title}
                         </a>
@@ -86,14 +86,14 @@ const NewsSection = ({trendingNews}) => {
                         }}
                       />
                     </a>
-                    <div className="absolute bottom-0 bg-black bg-opacity-60 w-full p-4">
-                      <span className="bg-orange-500 text-white px-2 py-1 text-xs uppercase rounded">
+                    <div className="absolute bottom-0 bg-gray-100 bg-opacity-60 w-full p-4">
+                      <span className="bg-orange-500 px-2 py-1 text-xs uppercase rounded">
                         {news.category}
                       </span>
-                      <h2 className="text-white text-lg font-bold mt-2">
+                      <h2 className=" text-lg font-bold mt-2">
                         <a
                           href={news.link}
-                          className="text-white hover:underline"
+                          className=" hover:underline"
                         >
                           {news.title}
                         </a>

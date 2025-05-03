@@ -47,7 +47,7 @@ const BusinessSection = ({ businessArticles }) => {
                         {item.title}
                       </a>
                     </h4>
-                    <p className="text-sm text-gray-600">{item.description}</p>
+                    <p className="text-sm text-gray-600 line-clamp-4">{item.description}</p>
                     <span className="text-xs text-gray-400 block mt-2 uppercase">
                       {item.pubDate}
                     </span>

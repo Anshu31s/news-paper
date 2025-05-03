@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useStore from "@/store/store"; 
 import TopHeader from "@/components/TopHeader";
 import Header from "@/components/Header";
 import NewsSection from "@/components/NewsCarousel";
@@ -10,13 +11,15 @@ import SportsSection from "@/components/SportsSection";
 import BusinessSection from "@/components/BusinessSection";
 
 export default function HomePage() {
+  const { language, country } = useStore();
+
   const [trendingArticles, setTrendingArticles] = useState([]);
   const [sportsArticles, setSportsArticles] = useState([]);
   const [businessArticles, setBusinessArticles] = useState([]);
 
   const fetchNewsByCategory = async (category) => {
     try {
-      const res = await axios.get(`/api/get-news?category=${category}`);
+      const res = await axios.get(`/api/get-news?category=${category}&country=${country}&language=${language}`);
       return res.data.data || [];
     } catch (err) {
       console.error(`Failed to fetch ${category} news:`, err);
@@ -38,7 +41,7 @@ export default function HomePage() {
     };
 
     fetchAllNews();
-  }, []);
+  }, [language, country]);
 
   return (
     <>
@@ -57,7 +60,7 @@ export default function HomePage() {
       {/* Business */}
       <BusinessSection businessArticles={businessArticles} />
 
-      <Footer />
+      <Footer topNews={trendingArticles} />
     </>
   );
 }
